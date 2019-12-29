@@ -1,0 +1,21 @@
+version: "3"
+services:
+    web:
+        env_file:
+            - ./.env
+        build:
+            dockerfile: Docker.Webapi/Dockerfile
+            context: .
+        ports:
+            - "8000:80"
+        depends_on:
+            - db
+        environment:
+            - TestDbConnectionString=${TEST_DB_CONNECTION_STRING}
+    db:
+        image: "mcr.microsoft.com/mssql/server:latest"
+        ports:
+            - "11433:1433"
+        environment:
+            SA_PASSWORD: "Password1234"
+            ACCEPT_EULA: "Y"
